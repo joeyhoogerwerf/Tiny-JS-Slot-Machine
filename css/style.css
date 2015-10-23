@@ -1,0 +1,56 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	-webkit-box-sizing: border-box;
+}
+
+body{
+	padding-top: 20px;
+	font-family: 'arial';
+}
+
+h1{
+	text-align: center;
+	margin-bottom: 10px;
+	font-weight: 100;
+	font-size: 36px;
+}
+
+#slotmachine{
+	width: 600px;
+	height: 400px;
+	margin: 0px auto;
+	border: 1px solid black;
+}
+
+#slotmachine .reel{
+	width: 33.33333%;
+	height: 100%;
+	border: 1px solid black;
+	float: left;
+}
+
+#slotmachine .reel div{
+	height: 33.33333%;
+	border: 1px solid #bbb;
+	text-align: center;
+}
+
+#slotmachine .reel img{
+	width: 80px;
+	height: 80px;
+	margin: 0px auto -48% auto;
+
+}
+
+#spinReelsBtn{
+	margin: 0px auto;
+	padding: 5px;
+	display: block;
+}
+
+.row div{
+	width: 33.33333%;
+	padding-top: 20px;
+	float: left;
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="js/jquery-1.11.3.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="js/QTransform.js"></script>
+	<script type="text/javascript">
+
+		var symbols =
+		[	
+			{name:'kers', value:10, rarity:1},
+			{name:'aardbei', value:20, rarity:3},
+			{name:'citroen', value:40, rarity:5},
+			{name:'sinaasappel', value:75, rarity:10},
+			{name:'watermeloen', value:125, rarity:25},
+			{name:'bel', value:250, rarity:50},
+			{name:'zeven', value:1000, rarity:100}
+		];
+
+		var payline = [];
+		var costPerSpin = -1;
+		var balance = 100;
+
+		$(function(){
+			
+			console.log('init my slot machine');
+
+			refreshSymbols();
+			$('#spinReelsBtn').click(spin);
+		});
+
+		function spin(){
+
+			console.log('start spinning...');
+
+			$('#profit').text(0); //refresh profit counter
+			updateBalance(costPerSpin);
+			refreshSymbols();
+			checPaylineFor3IdenticalSymbols();
+		}
+
+		function updateBalance(c){
+			balance += c;
+			$('#balance').text(parseInt($('#balance').text()) + c);
+		}
+
+		function refreshSymbols(){
+
+			console.log('refresh symbols');
+
+			payline.length = 0;
+
+			$('#slotmachine .reel').each(function(){
+
+				//fill each reel with fresh symbols
+				$(this).children().empty().each(function(i){
+
+					var symbol = getRandomSymbol();
+					var currentSymbol = $('<img src="img/' + symbol.name + '.png" />').appendTo(this).attr({'data-symbol':symbol.name, 
+																											'data-value':symbol.value});
+					//push symbol in array when its in payline
+					if(i == 1){
+						payline.push(currentSymbol);
+					}
+				});
+			});
+		}
+
+		function getRandomSymbol(){
+
+			console.log('selecting random symbol...');
+
+			for (var i = symbols.length -1; i >= 0; i--) {
+
+				//generate random number between 1 and rarity number of symbol, on match -> return symbol
+				if(Math.ceil((Math.random() * symbols[i].rarity)) == symbols[i].rarity){
+					return symbols[i];
+				}
+
+			};			
+		}
+
+		function checPaylineFor3IdenticalSymbols(){
+
+			console.log('check winning line for identical symbols');
+
+			if(payline[1].data('symbol') == payline[0].data('symbol')){
+				
+				if(payline[2].data('symbol') == payline[1].data('symbol')){
+					
+					console.log('win!');
+
+					var profit = payline[0].data('value');
+
+					$('#slotmachine .reel div:nth-child(2) img').animate({rotate: '360deg'}, 2000, 'easeOutElastic');
+					$('#profit').html(profit);
+					updateBalance(profit);
+				}
+			}
+		}
+
+		
+	</script>
+
+</head>
+<body>
+	
+	<h1>My Slot Machine</h1>
+
+	<div id="slotmachine">
+		
+		<div class="reel 1">
+			
+			<div></div>
+			<div></div>
+			<div></div>
+
+		</div>
+
+		<div class="reel 2">
+			
+			<div></div>
+			<div></div>
+			<div></div>
+
+		</div>
+
+		<div class="reel 3">
+			
+			<div></div>
+			<div></div>
+			<div></div>
+
+		</div>
+
+		<div class="row">
+		
+			<div>
+				<p>Balance: $<span id="balance">100</span></p>
+				<p>Win: $<span id="profit">0</span></p>
+			</div>
+
+			<div>
+				<button id="spinReelsBtn">START</button>
+			</div>
+
+		</div>
+
+	</div>
+	
+</body>
+</html>
