@@ -26,6 +26,8 @@
 			
 			console.log('init my slot machine');
 
+			//init balance counter
+			$('#balance').text(balance);
 			refreshSymbols();
 			$('#spinReelsBtn').click(spin);
 		});
@@ -138,7 +140,7 @@
 		<div class="row">
 		
 			<div>
-				<p>Balance: $<span id="balance">100</span></p>
+				<p>Balance: $<span id="balance"></span></p>
 				<p>Win: $<span id="profit">0</span></p>
 			</div>
 
