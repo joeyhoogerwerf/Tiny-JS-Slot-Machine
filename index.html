@@ -26,7 +26,7 @@
 			
 			console.log('init my slot machine');
 
-			//init balance counter
+			//init text in balance counter
 			$('#balance').text(balance);
 			refreshSymbols();
 			$('#spinReelsBtn').click(spin);
@@ -36,34 +36,32 @@
 
 			console.log('start spinning...');
 
-			$('#profit').text(0); //refresh profit counter
+			//refresh text in profit counter
+			$('#profit').text(0);
 			updateBalance(costPerSpin);
 			refreshSymbols();
 			checPaylineFor3IdenticalSymbols();
 		}
 
 		function updateBalance(c){
-			balance += c;
-			$('#balance').text(parseInt($('#balance').text()) + c);
+			$('#balance').text(balance += c);
 		}
 
 		function refreshSymbols(){
 
-			console.log('refresh symbols');
+			//console.log('refresh symbols');
 
-			payline.length = 0;
-
-			$('#slotmachine .reel').each(function(){
+			$('#slotmachine .reel').each(function(i){
 
 				//fill each reel with fresh symbols
-				$(this).children().empty().each(function(i){
+				$(this).children().empty().each(function(j){
 
 					var symbol = getRandomSymbol();
 					var currentSymbol = $('<img src="img/' + symbol.name + '.png" />').appendTo(this).attr({'data-symbol':symbol.name, 
 																											'data-value':symbol.value});
 					//push symbol in array when its in payline
-					if(i == 1){
-						payline.push(currentSymbol);
+					if(j == 1){
+						payline[i] = currentSymbol;
 					}
 				});
 			});
@@ -71,7 +69,7 @@
 
 		function getRandomSymbol(){
 
-			console.log('selecting random symbol...');
+			//console.log('selecting random symbol...');
 
 			for (var i = symbols.length -1; i >= 0; i--) {
 
@@ -79,19 +77,18 @@
 				if(Math.ceil((Math.random() * symbols[i].rarity)) == symbols[i].rarity){
 					return symbols[i];
 				}
-
 			};			
 		}
 
 		function checPaylineFor3IdenticalSymbols(){
 
-			console.log('check winning line for identical symbols');
+			//console.log('check winning line for identical symbols');
 
 			if(payline[1].data('symbol') == payline[0].data('symbol')){
 				
 				if(payline[2].data('symbol') == payline[1].data('symbol')){
 					
-					console.log('win!');
+					console.log('you won ' + payline[0].data('value') + ' credits!');
 
 					var profit = payline[0].data('value');
 
